@@ -1,0 +1,24 @@
+@import 'vars';
+@import 'mixins';
+@import 'functions';
+@import 'fonts';
+@import 'reset';
+@import 'utilities';
+
+// common
+@import 'common/site-header';
+@import 'common/site-nav';
+@import 'common/site-footer';
+
+// page
+
+
+html,
+body {
+  height: 100%;
+  font-size: $baseFontSize;
+  font-family: $regular;
+  -webkit-font-smoothing: antialiased;
+  color: $brown;
+}
+

@@ -1,0 +1,226 @@
+// scale based on screen width
+// ------------------------------------------------------------------------------------------------- //
+.site-header {
+  // mobile
+  @media (max-width: $hm-grid-single-column-break) {
+    background-color: $white;
+    height: 80px;
+    overflow: hidden;
+    margin-bottom: 7.3vw;
+  }
+}
+.site-header__container {
+  display: flex;
+  justify-content: space-between;
+}
+
+// brand
+// ----------------------------------------- //
+.site-header__brand {
+
+}
+
+// logo
+// ----------------------------------------- //
+.site-header__brand-link {
+  display: flex;
+  align-items: flex-start;
+
+  svg {
+    fill: $orange;
+    width: px2vw(130, $designLarge);
+    height: auto;
+  }
+
+  // fixed size on medium screens
+  @media (max-width: $hm-grid-break) {
+    svg {
+      width: 92.484px;
+    }
+  }
+
+  // mobile
+  @media (max-width: $hm-grid-single-column-break) {
+    svg {
+      fill: $orange;
+      width: 63px;
+    }
+  }
+}
+
+// tagline
+// ----------------------------------------- //
+.site-header__tagline {
+
+}
+.site-header__tagline--large {
+  font-size: px2vw(14, $designLarge);
+  color: $white;
+  font-family: $bold;
+  text-transform: uppercase;
+  line-height: px2lh(14, 20.6);
+  letter-spacing: ps2em(300);
+  margin: 1.3vw 0 0 1.55vw;
+  display: none;
+
+  // fixed size on medium screens
+  @media (max-width: $hm-grid-break) {
+    font-size: 9.96px;
+    margin: 17.758px 0 0 21.173px;
+  }
+
+  // mobile
+  @media (max-width: $hm-grid-single-column-break) {
+    font-size: 10px;
+    color: $brown;
+    line-height: px2lh(10, 14);
+    letter-spacing: ps2em(375);
+    margin: 11px 0 0 16px;
+  }
+}
+.site-header__tagline--small {
+  display: none;
+}
+
+// utility links
+// ----------------------------------------- //
+.site-header__utility-links {
+  display: flex;
+  align-items: flex-start;
+}
+
+// book cta
+// ----------------------------------------- //
+.site-header__book-cta {
+  color: $brown;
+  font-size: px2vw(10, $designLarge);
+  text-transform: uppercase;
+  letter-spacing: ps2em(160);
+  display: flex;
+  align-items: center;
+  margin: 2vw 0 0 0;
+  -webkit-font-smoothing: auto;
+
+  svg {
+    fill: $brown;
+    margin-left: 0.5vw;
+    width: px2vw(32, $designLarge);
+    height: auto;
+  }
+
+  // fixed size on medium screens
+  @media (max-width: $hm-grid-break) {
+    font-size: 7.11px;
+    margin: 27.32px 0 0 0;
+
+    svg {
+      margin-left: 6.83px;
+      width: 22.768px;
+    }
+  }
+
+  // mobile
+  @media (max-width: $hm-grid-single-column-break) {
+    margin: 27px 0 0 0;
+
+    span {
+      display: none;
+    }
+    svg {
+      fill: $brown;
+      width: 29.5px;
+      margin: 0;
+    }
+  }
+}
+
+// menu btn
+// ----------------------------------------- //
+.site-header__menu-btn {
+  margin: 2.15vw 2.1vw 0 2.1vw;
+
+  svg {
+    fill: $brown;
+    width: px2vw(25, $designLarge);
+    height: auto;
+  }
+
+  // fixed size on medium screens
+  @media (max-width: $hm-grid-break) {
+    margin: 29.369px 28.686px 0 28.686px;
+
+    svg {
+      width: 17.781px;
+    }
+  }
+
+  // mobile
+  @media (max-width: $hm-grid-single-column-break) {
+    margin: 30px 20px 0 21px;
+
+    svg {
+      fill: $brown;
+      width: 25px;
+    }
+  }
+}
+
+// Overlay header
+// ----------------------------------------- //
+// Absolute position site header on pages with hero images
+@media (min-width: $hm-grid-single-column-break + 1) {
+  .home,
+  .page-template-about {
+    .site-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+    }
+
+    // logo
+    .site-header__brand-link {
+      svg {
+        fill: $white;
+      }
+    }
+
+    // tagline
+    .site-header__tagline--large {
+      display: block;
+    }
+
+    // cta
+    .site-header__book-cta {
+      color: $white;
+      svg {
+        fill: $white;
+      }
+    }
+
+    // menu btn
+    .site-header__menu-btn {
+      svg {
+        fill: $white;
+      }
+    }
+  }
+}
+
+@media (max-width: $hm-grid-single-column-break) {
+  .home,
+  .page-template-about {
+    .site-header {
+      margin-bottom: 0;
+    }
+  }
+
+  .home {
+    .site-header__tagline--large {
+      display: block;
+    }
+  }
+}
+
+

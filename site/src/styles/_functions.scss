@@ -1,0 +1,85 @@
+// Convert Photoshop tracking value to letter-space ems
+// @param {Number} $val - Photoshop tracking value
+// @example letter-spacing: ps2em(10);
+// ----------------------------------------- //
+@function ps2em($val) {
+  @return ($val / 1000) * 1em;
+}
+
+// Convert pixel to unitless line-height
+// ----------------------------------------- //
+// @param {Number} $fontSizePx
+// @param {Number} $lineHeightPx
+// @example line-height: px2lh(15, 30);
+@function px2lh($fontSizePx, $lineHeightPx) {
+  @return $lineHeightPx / $fontSizePx;
+}
+
+// Convert pixel to viewport width
+// ----------------------------------------- //
+// @param {Number} $px - Pixel value
+// @param {Number} $canvasWidth - Pixel width of the Photoshop canvas
+// @example font-size: px2vw(15, 1920);
+@function px2vw($px, $canvasWidth) {
+  @return ($px / $canvasWidth) * 100vw;
+}
+
+// Convert pixel to percentage
+// ----------------------------------------- //
+// @param {Number} $px - Pixel value
+// @param {Number} $parent - Pixel width or height of parent container
+// @example width: px2pr(15, 1920);
+@function px2pr($px, $parent) {
+  @return ($px / $parent) * 100%;
+}
+
+// Convert value between pixel, point, percent, and em
+// ----------------------------------------- //
+// Note: this requires the $baseFontSize variable be defined and used on the body
+// @param {Number} $value - Value to convert
+// @param {String} $currentUnit
+// @param {String} $convertUnit
+// @example font-size: convert(16, px, percent);
+// https://www.sitepoint.com/converting-typographic-units-sass/
+
+@function convert($value, $currentUnit, $convertUnit){
+  @if $currentUnit == px {
+
+    @if $convertUnit == ems {
+      @return $value / $baseFontSize + 0em;
+    }
+    @else if $convertUnit == percent {
+      @return percentage($value / $baseFontSize);
+    }
+
+  } @else if $currentUnit == ems {
+
+    @if $convertUnit == px {
+      @return $value * $baseFontSize + 0px;
+    }
+    @else if $convertUnit == percent {
+      @return percentage($value);
+    }
+
+  } @else if $currentUnit == percent {
+
+    @if $convertUnit == px {
+      @return $value * $baseFontSize / 100 + 0px;
+    }
+    @else if $convertUnit == ems {
+      @return $value / 100 + 0em;
+    }
+
+  } @else if $currentUnit == pts {
+
+    @if $convertUnit == px {
+      @return $value * 1.3333 +0px;
+    }
+    @else if $convertUnit == ems {
+      @return $value / 12 + 0em;
+    }
+    @else if $convertUnit == percent {
+      @return percentage($value / 12)
+    }
+  }
+}

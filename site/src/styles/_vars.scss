@@ -1,0 +1,56 @@
+// Colors
+// ---------------------------------------------------------------------------------------------- //
+$black: #000000;
+$white: #ffffff;
+$brown: #615954;
+$lightBrown: #b6a89e;
+$lightLightBrown: #ab9e95;
+$orange: #c46b37;
+
+// Easing
+/*-------------------------------------------------------------------------------------------------*/
+// In
+$easeInQuad: cubic-bezier(0.550, 0.085, 0.680, 0.530);
+$easeInCubic: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+$easeInQuart: cubic-bezier(0.895, 0.030, 0.685, 0.220);
+$easeInSine: cubic-bezier(0.470, 0.000, 0.745, 0.715);
+$easeInCirc: cubic-bezier(0.600, 0.040, 0.980, 0.335);
+// Out
+$easeOutQuad: cubic-bezier(0.250, 0.460, 0.450, 0.940);
+$easeOutCubic: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+$easeOutQuart: cubic-bezier(0.165, 0.840, 0.440, 1.000);
+$easeOutSine: cubic-bezier(0.390, 0.575, 0.565, 1.000);
+$easeOutCirc: cubic-bezier(0.075, 0.820, 0.165, 1.000);
+// In Out
+$easeInOutQuad: cubic-bezier(0.455, 0.030, 0.515, 0.955);
+$easeInOutCubic: cubic-bezier(0.645, 0.045, 0.355, 1.000);
+$easeInOutQuart: cubic-bezier(0.770, 0.000, 0.175, 1.000);
+$easeInOutSine: cubic-bezier(0.445, 0.050, 0.550, 0.950);
+$easeInOutCirc: cubic-bezier(0.785, 0.135, 0.150, 0.860);
+
+// Fonts
+// ---------------------------------------------------------------------------------------------- //
+$ultraLight: 'AvenirNext-UltraLight', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$ultraLightItalic: 'AvenirNext-UltraLightItalic', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$light: 'Avenir-Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$regular: 'AvenirNext-Regular', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$italic: 'AvenirNext-Italic', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$medium: 'AvenirNext-Medium', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$mediumItalic: 'AvenirNext-MediumItalic', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$demiBold: 'AvenirNext-DemiBold', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$demiBoldItalic: 'AvenirNext-DemiBoldItalic', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$bold: 'AvenirNext-Bold', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$boldItalic: 'AvenirNext-BoldItalic', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+$baseFontSize: 16px;
+
+// Design Screen Sizes (used for functions)
+// ------------------------------------------------------------------------------------------------- //
+$designLarge: 1920;
+$designMedium: 1366;
+$designSmall: 375;
+
+// Page screen sizes
+$single-column-break: 700px;
+$mid-break: 1367px;
+$text-break: 1010px;

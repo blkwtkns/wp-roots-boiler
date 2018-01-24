@@ -1,0 +1,10 @@
+path: web/wp
+
+@prod:
+  ssh: web@example.com/srv/www/example/current
+
+@dev:
+  ssh: vagrant@kaa.local/srv/www/kaa/current
+
+@stage:
+  ssh: web@example.com/srv/www/example/current

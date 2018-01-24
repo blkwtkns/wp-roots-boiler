@@ -1,0 +1,248 @@
+// scalable layout based on width
+// ------------------------------------------------------------------------------------------------- //
+.site-footer {
+  background-color: $brown;
+}
+.site-footer__container {
+  display: flex;
+  justify-content: space-between;
+  padding: px2vw(50, $designLarge)
+           px2pr(40, $designLarge)
+           px2vw(44, $designLarge);
+}
+
+// info
+// ----------------------------------------- //
+.site-footer__info {
+  display: flex;
+  align-items: flex-end;
+}
+.site-footer__section {
+  flex: 1 1 auto;
+  margin-right: px2vw(46, $designLarge);
+}
+
+// logo
+.site-footer__logo {
+  display: block;
+  margin-bottom: px2vw(37, $designLarge);
+  svg {
+    fill: #fff;
+    width: px2vw(115, $designLarge);
+    height: auto;
+  }
+}
+
+// text
+.site-footer__text {
+  font-size: px2vw(15, $designLarge);
+  color: $white;
+  line-height: px2lh(15, 30);
+  letter-spacing: ps2em(10);
+}
+.site-footer__text-link {
+  color: $white;
+}
+
+// links
+// ----------------------------------------- //
+.site-footer__links {
+  display: flex;
+  align-items: flex-end;
+}
+
+// pages
+.site-footer__pages {
+  text-align: right;
+}
+.site-footer__page-item {
+  margin-bottom: 0.35vw;
+  display: inline-block;
+  margin-left: px2vw(51, $designLarge);
+}
+.site-footer__page-link {
+  font-size: px2vw(15, $designLarge);
+  font-family: $medium;
+  text-transform: uppercase;
+  letter-spacing: ps2em(200);
+  color: $white;
+}
+
+// social
+.site-footer__social {
+  display: flex;
+  align-items: center;
+  margin-left: 1.5vw;
+}
+.site-footer__social-item {
+  margin-left: px2vw(30, $designLarge);
+  svg {
+    fill: $white;
+    height: auto;
+  }
+}
+.site-footer__social-item--pinterest svg {
+  width: px2vw(20, $designLarge);
+}
+.site-footer__social-item--facebook svg {
+  width: px2vw(12, $designLarge);
+}
+.site-footer__social-item--instagram svg {
+  width: px2vw(25, $designLarge);
+}
+.site-footer__social-item--houzz svg {
+  width: px2vw(16, $designLarge);
+}
+
+
+.site-footer__social-link {
+}
+
+// switch to fixed sizes for mid size screens
+// ------------------------------------------------------------------------------------------------- //
+@media (max-width: $hm-grid-break) {
+  .site-footer__container {
+    padding: 35px 28px 32px;
+  }
+
+  // info
+  // ----------------------------------------- //
+  .site-footer__info {
+
+  }
+  .site-footer__section {
+    margin-right: 33px;
+  }
+
+  // logo
+  .site-footer__logo {
+    margin-bottom: 26px;
+    svg {
+      width: 82px;
+    }
+  }
+
+  // text
+  .site-footer__text {
+    font-size: 10.67px;
+    line-height: px2lh(10.67, 21.34);
+  }
+
+  // links
+  // ----------------------------------------- //
+  // pages
+  .site-footer__pages {
+  }
+  .site-footer__page-item {
+    margin-left: 36px;
+    margin-bottom: 5px;
+  }
+  .site-footer__page-link {
+    font-size: 10.67px;
+    // letter-spacing: ps2em(200);
+  }
+
+  // social
+  .site-footer__social {
+    margin-left: 20.5px;
+  }
+  .site-footer__social-item {
+    margin-left: 21px;
+  }
+  .site-footer__social-item--pinterest svg {
+    width: 14px;
+  }
+  .site-footer__social-item--facebook svg {
+    width: 8.5px;
+  }
+  .site-footer__social-item--instagram svg {
+    width: 18px;
+  }
+  .site-footer__social-item--houzz svg {
+    width: 11.375px;
+  }
+
+
+  .site-footer__social-link {
+  }
+}
+
+// make links on right stack vertically to allow more room
+// ------------------------------------------------------------------------------------------------- //
+@media (max-width: 970px) {
+  .site-footer__links {
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .site-footer__pages {
+    margin-bottom: 20px;
+  }
+  .site-footer__page-item {
+    display: block;
+    margin: 0 0 10px 0;
+  }
+}
+
+// Mobile layout
+// ------------------------------------------------------------------------------------------------- //
+@media (max-width: $hm-grid-single-column-break) {
+  .site-footer {
+
+  }
+  .site-footer__container {
+    flex-direction: column-reverse;
+    padding: px2vw(160, $designLarge)
+             px2pr(35, $designSmall)
+             px2vw(28, $designSmall);
+  }
+
+  // info
+  // ----------------------------------------- //
+  .site-footer__info {
+    display: block;
+  }
+  .site-footer__section {
+    display: block;
+    text-align: center;
+    margin: 0;
+  }
+  .site-footer__section--address,
+  .site-footer__section--contact {
+    display: none;
+  }
+
+  // logo
+  .site-footer__logo {
+    display: none;
+  }
+
+  // text
+  .site-footer__text {
+    font-size: px2vw(12.5, $designSmall);
+  }
+
+  // links
+  // ----------------------------------------- //
+  .site-footer__links {
+    display: block;
+    text-align: center;
+  }
+
+  // pages
+  .site-footer__pages {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 6vw;
+  }
+  .site-footer__page-item {
+    margin: 0;
+  }
+  .site-footer__page-link {
+    font-size: px2vw(12.5, $designSmall);
+  }
+
+  // social
+  .site-footer__social {
+    display: none;
+  }
+}

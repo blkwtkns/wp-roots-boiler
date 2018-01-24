@@ -1,0 +1,41 @@
+// button
+// ----------------------------------------- //
+@mixin button {
+  font-family: $medium;
+  display: inline-block;
+  font-size: 11px;
+  color: $lightBrown;
+  text-transform: uppercase;
+  border: 1px solid $lightBrown;
+  letter-spacing: ps2em(200);
+  padding: 15px 18px;
+}
+
+@mixin button-lrg {
+  @include button;
+  font-size: 0.81vw;
+  padding: 1.1vw 1.32vw;
+}
+
+@mixin button--small {
+  @include button;
+  letter-spacing: 0.21em;
+  font-size: 12.5px;
+  padding: 16px 23px;
+}
+
+// dash
+// ----------------------------------------- //
+@mixin dash {
+  background-color: $orange;
+  width: 2.71vw;
+  height: 0.59vw;
+  display: inline-block;
+}
+
+@mixin dash-small {
+  background-color: $orange;
+  width: 7.2vw;
+  height: 1.87vw;
+  display: inline-block;
+}

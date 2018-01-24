@@ -1,0 +1,9 @@
+# Defining a hook that Trellis does not already use by default
+# deploy_before:
+#   - "{{ playbook_dir }}/deploy-hooks/deploy-before.yml"
+
+# Overriding a hook that Trellis already uses by default
+deploy_build_after:
+  - "{{ playbook_dir }}/roles/deploy/hooks/build-after.yml"
+  - "{{ playbook_dir }}/deploy-hooks/build-after.yml"
+  # - "{{ playbook_dir }}/deploy-hooks/sites/{{ site }}-build-after.yml"
