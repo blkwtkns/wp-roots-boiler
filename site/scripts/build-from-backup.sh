@@ -1,88 +1,100 @@
 #!/bin/bash
+echo "BEWARE: Defaults are mapped for development machine"
 
+# Machine input
+read -r -p "Enter machine [prod/stage/dev/redev] (default: dev): " MACHINE
+# Machine default
+MACHINE=${MACHINE:-dev}
 
-echo "Defaults are mapped for development machine"
+# current timestamp
+NOW=`date +"%m_%d_%Y_%H_%M_%S"`
 
-read -r -p "Backup current database? [y/N] (default: yes): " RESP
-read -r -p "Enter machine [prod/stage/dev] (default: dev): " MACHINE
-
+# Cases
 if $(wp "@$MACHINE" core is-installed); then
-  echo "wp core installed"
+  echo "wp core installed, exporting database backup as $MACHINE-backup_$NOW.sql in site root directory"
+  wp "@$MACHINE" db export $MACHINE-backup_$NOW.sql
+  wp "@$MACHINE" db export - > $MACHINE-backup_$NOW.sql
+  INSTALLED=true
 else
   echo "wp core not installed"
-  read -r -p "Sync from another machine? (default: no): " SYNC
+  read -r -p "Sync from another machine? [y/N]: " SYNC
   SYNC=${SYNC:-no}
 
   if [[ "$SYNC" =~ ^([yY][eE][sS]|[yY])$ ]]; then
     source ./scripts/sync-machines.sh
     exit 0
+  else
+    read -r -p "Continue building WordPress? [y/N]: " BUILD_CONFIRM
+    BUILD_CONFIRM=${BUILD_CONFIRM:-no}
+    if [[ "$BUILD_CONFIRM" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+      echo "Continuing build process..."
+    else
+      exit 0
+    fi
   fi
 fi
 
+# Inputs
 read -r -p "Enter site (enter ip or domain, default: example.local): " SITE
 read -r -p "Enter title (default: example): " TITLE
 read -r -p "Enter user name (default: admin): " USER
-read -r -p "Enter email (default: aperson@example.com): " EMAIL
-read -r -p "Enter password (default: P@%%W0RD!): " PASSWORD
+read -r -p "Enter email (default: example@example.com): " EMAIL
+read -r -p "Enter password (default: example): " PASSWORD
 read -r -p "Enter theme (default: dist): " THEME
-read -r -p "Enter SQL backup file (default: ./dev-backup.sql): " SQL_BACKUP
+read -r -p "Enter SQL backup file (if no backup file input, then default is to create a backup and just reinitialize with it: $MACHINE-backup_$NOW.sql): " SQL_BACKUP
 
+# Defaults
 RESP=${RESP:-yes}
 MACHINE=${MACHINE:-dev}
 USER=${USER:-admin}
 EMAIL=${EMAIL:-example@example.com}
-PASSWORD=${PASSWORD:-P@%%W0RD!}
+PASSWORD=${PASSWORD:-example}
 THEME=${THEME:-dist}
 SITE=${SITE:-example.local}
 TITLE=${TITLE:-example}
-SQL_BACKUP=${SQL_BACKUP:-./$MACHINE-backup.sql}
-NOW=`date +"%m_%d_%Y"`
+SQL_BACKUP=${SQL_BACKUP:-$MACHINE-backup_$NOW.sql}
+INSTALLED=${INSTALLED:-false}
 
 # install routine
 initWP() {
   echo "Installing core and theme..."
   wp "@$MACHINE" db reset --yes
-  wp "@$MACHINE" core install --url=$SITE --title=$TITLE --admin_user=$USER --admin_email=$EMAIL --admin_password=$PASSWORD
-  wp "@$MACHINE" theme install $THEME --activate
+  if [[ "$INSTALLED" = true ]]; then
+    read -r -p "WordPress already installed, reinitialize? [y/N]: " REINIT
+    REINIT=${REINIT:-no}
+
+    if [[ "$REINIT" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+      wp "@$MACHINE" core install --url=$SITE --title=$TITLE --admin_user=$USER --admin_email=$EMAIL --admin_password=$PASSWORD
+      wp "@$MACHINE" theme install $THEME --activate
+      wp "@$MACHINE" plugin activate --all
+    fi
+  fi
 }
 
-# Create timestamp backup
-if [[ "$RESP" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-  wp "@$MACHINE" db export $MACHINE-backup_$NOW.sql
-  echo "Database backup exported as $MACHINE-backup_$NOW.sql in site root directory"
-fi
+if [ -f $SQL_BACKUP ] && [ $SQL_BACKUP != "$MACHINE-backup_$NOW.sql" ]; then
+  echo "Initializing WordPress..."
+  initWP
+  echo "WordPress initialized."
+  echo "Importing database backup..."
 
-# REMOTE
-if [ $MACHINE = "prod" ] || [ $MACHINE = "stage" ]; then
-  echo "check sql backup $SQL_BACKUP"
-  ssh "web@$SITE" "test -e /srv/www/kaa/current/$SQL_BACKUP"
-  if [ $? -eq 0 ]; then
-    # your file exists
-    initWP
+  if [ $MACHINE = "prod" ] || [ $MACHINE = "stage" ] || [ $MACHINE = "redev" ]; then
 
-    if [[ "$RESP" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-      ssh "web@$SITE" "cp /srv/www/kaa/current/$MACHINE-backup_$NOW.sql /srv/www/kaa/current/$MACHINE-backup.sql"
-      echo "Database backup copied as $MACHINE-backup.sql in site root directory"
+    read -r -p "Sync the uploads folder? [y/N] " uploads
+    uploads=${uploads:-no}
+    if [[ "$uploads" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+      rsync -az --progress web/app/uploads/ web@$SITE:/srv/www/kaa/current/web/app/uploads/
     fi
-
-  else
-    echo "No backup sql file found to copy over to remote machine"
   fi
-
-  exit 0
-fi
-
-# LOCAL
-initWP
-
-if [ -f $SQL_BACKUP ]; then
-  wp "@$MACHINE" db import $SQL_BACKUP
-  echo "Database backup imported"
+  # rsync -az --progress $SQL_BACKUP web@$SITE:/srv/www/kaa/current
+  # wp "@$MACHINE" db import $SQL_BACKUP
+  cat $SQL_BACKUP | wp "@$MACHINE" db import -
 else
-  echo "Database backup not found! Either setup up WordPress manually if no other database exists, or sync from existing database"
-fi
-
-if [[ "$RESP" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-  cp $MACHINE-backup_$NOW.sql $MACHINE-backup.sql
-  echo "Database backup copied as $MACHINE-backup.sql in site root directory"
+  read -r -p "Distinct database backup not found! Continue with WordPress initialization? [y/N]: " WORD_INIT
+  WORD_INIT=${WORD_INIT:-no}
+  if [[ "$WORD_INIT" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+    initWP
+  else
+    echo "Routine terminated."
+    exit 0
+  fi
 fi

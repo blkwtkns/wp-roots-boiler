@@ -4,7 +4,7 @@ path: web/wp
   ssh: web@example.com/srv/www/example/current
 
 @dev:
-  ssh: vagrant@kaa.local/srv/www/kaa/current
+  ssh: vagrant@example.local/srv/www/example/current
 
 @stage:
   ssh: web@example.com/srv/www/example/current
