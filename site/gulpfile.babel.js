@@ -20,35 +20,41 @@ import webpackConfig from './webpack.conf';
 // location of static files to copy over
 // everything but markup, scripts, and styles directories
 const staticFiles = [
-  'src/**/*.*',
-  '!src/scripts{,/**}',
-  '!src/styles{,/**}'
+  // 'src#<{(||)}>#*.*',
+  // '!src/scripts{,#<{(|*}',
+  // '!src/styles{,#<{(|*}'
+
+  'themeContainer/**/*.*',
+  '!themeContainer/src{,/**}',
 ];
 
 // Styles
 // ------------------------------------------------------- //
-gulp.task('styles', () => (
-  gulp.src('src/styles/**/*.scss')
-    .pipe(plumber({ errorHandle: reportError }))
-    // Load existing internal sourcemap
-    .pipe(sourcemaps.init())
-    // generate CSS from SASS
-    .pipe(sass({ outputStyle: 'compressed' }))
-    // catch any errors
-    .on('error', reportError)
-    // autoprefix code. Check browserslist in package.json for settings
-    .pipe(postcss([autoprefixer()]))
-    // Write final .map file
-    .pipe(sourcemaps.write())
-    // output files
-    .pipe(gulp.dest('./web/app/themes/dist/css'))
-    // update browserSync
-    // .pipe(browserSync.stream())
-));
+// gulp.task('styles', () => (
+//   // gulp.src('src/styles#<{(||)}>#*.scss')
+//   gulp.src('themeContainer/src/sass#<{(||)}>#*.scss')
+//     .pipe(plumber({ errorHandle: reportError }))
+//     // Load existing internal sourcemap
+//     .pipe(sourcemaps.init())
+//     // generate CSS from SASS
+//     .pipe(sass({ outputStyle: 'compressed' }))
+//     // catch any errors
+//     .on('error', reportError)
+//     // autoprefix code. Check browserslist in package.json for settings
+//     .pipe(postcss([autoprefixer()]))
+//     // Write final .map file
+//     .pipe(sourcemaps.write())
+//     // output files
+//     .pipe(gulp.dest('./web/app/themes/dist/css'))
+//     // update browserSync
+//     // .pipe(browserSync.stream())
+// ));
+
 
 // Scripts
 // ------------------------------------------------------- //
-gulp.task('scripts', (callback) => {
+// gulp.task('scripts', (callback) => {
+gulp.task('stuff', (callback) => {
   // use webpack to transpile
   webpack(webpackConfig, (err, stats) => {
     // TODO: find a way to keep gulp running after error
@@ -74,7 +80,8 @@ gulp.task('scripts', (callback) => {
 // ------------------------------------------------------- //
 // copy static files (data, docs, fonts, and images) over to `dist` directory
 gulp.task('static', () => (
-  gulp.src(staticFiles, { base: 'src/' })
+  // gulp.src(staticFiles, { base: 'src/' })
+  gulp.src(staticFiles, { base: 'themeContainer/' })
     // output files
     .pipe(gulp.dest('./web/app/themes/dist'))
     // update browserSync
@@ -96,7 +103,8 @@ gulp.task('static', () => (
 // ------------------------------------------------------- //
 // Transpile HTML, CSS, and Javascript
 // Watch for changes
-gulp.task('dev', ['static', 'styles', 'scripts'], () => {
+// gulp.task('dev', ['static', 'styles', 'scripts'], () => {
+gulp.task('dev', ['static', 'stuff'], () => {
   // Start BrowserSync
   // browserSync.init({
   //   files: ['src/**/*.php', '*.php'],
@@ -107,10 +115,15 @@ gulp.task('dev', ['static', 'styles', 'scripts'], () => {
   //   }
   // });
   // Watch for changes and run matching task
-  gulp.watch(['src/*.html', 'src/markup/**/*.*'], ['html']);
-  gulp.watch('src/scripts/**/*.js', ['scripts']);
-  gulp.watch('src/styles/**/*.scss', ['styles']);
-  gulp.watch(staticFiles, { base: 'src/' }, ['static']);
+  // gulp.watch(['src#<{(|.html', 'src/markup#<{(||)}>#*.*'], ['html']);
+  // gulp.watch('src/scripts#<{(||)}>#*.js', ['scripts']);
+  // gulp.watch('src/styles#<{(||)}>#*.scss', ['styles']);
+  // gulp.watch(staticFiles, { base: 'src/' }, ['static']);
+
+  gulp.watch(['themeContainer/*.html', 'src/markup/**/*.*'], ['html']);
+  gulp.watch('themeContainer/src/**/*.js', ['scripts']);
+  gulp.watch('themeContainer/src/sas/**/*.scss', ['styles']);
+  gulp.watch(staticFiles, { base: 'themeContainer/' }, ['static']);
   // notify
   notify().write({
     message: 'Development mode engaged',
@@ -123,7 +136,8 @@ gulp.task('dev', ['static', 'styles', 'scripts'], () => {
 // Move static files
 // Bust cache
 gulp.task('build', cb =>
-  runSequence(['static', 'styles', 'scripts'], cb)
+  // runSequence(['static', 'styles', 'scripts'], cb)
+  runSequence(['static', 'stuff'], cb)
 );
 
 // Errors
